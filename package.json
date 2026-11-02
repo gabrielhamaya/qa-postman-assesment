@@ -1,0 +1,17 @@
+{
+  "name": "qa-assesment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "newman run collections/qa-assessment.postman_collection.json -e env/env.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export report/report.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "newman": "^6.2.3",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

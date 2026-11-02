@@ -1,0 +1,440 @@
+{
+  "info": {
+    "_postman_id": "64d1e87c-0a3f-41a4-bda3-325f423b3f28",
+    "name": "QA Assessment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "10544303"
+  },
+  "item": [
+    {
+      "name": "Contact form",
+      "item": [
+        {
+          "name": "Positive",
+          "item": [
+            {
+              "name": "[Contact Us] Valid data",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "",
+                      "pm.test(\"[Contact Us] Valid data - Returns 200 status code for valid data\", () => {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"[Contact Us] Valid data - Returns success is true in body for valid data\", () => {",
+                      "    const res = pm.response.json();",
+                      "    pm.expect(res.success).to.be.true;",
+                      "});",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"{{name}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{phone}}\",\n    \"subject\": \"{{subject}}\",\n    \"description\": \"{{description}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}{{contactUsEndPoint}}",
+                  "host": [
+                    "{{baseUrl}}{{contactUsEndPoint}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "Contains positive test cases for the Contact Us form, verifying that the API responds correctly when all required fields are submitted with valid data.\n\n**Scope:** Valid form submissions using the `[Contact Us] Valid data` request."
+        },
+        {
+          "name": "Negative",
+          "item": [
+            {
+              "name": "Blank Field",
+              "item": [
+                {
+                  "name": "[Contact Us] Blank email",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"[Contact Us] Blank email - Returns 400 status code for an empty body\", () => {",
+                          "    pm.response.to.have.status(400);",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] Blank email - Returns the errors as an array\", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res).to.be.an(\"array\");",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] Blank email - Response includes \", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res).to.include(\"Email may not be blank\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"{{name}}\",\n    \"email\": \"\",\n    \"phone\": \"{{phone}}\",\n    \"subject\": \"{{subject}}\",\n    \"description\": \"{{description}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}{{contactUsEndPoint}}",
+                      "host": [
+                        "{{baseUrl}}{{contactUsEndPoint}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "[Contact Us] Blank fields",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"[Contact Us] Blank Fields - Returns 400 status code for blank fields\", () => {",
+                          "    pm.response.to.have.status(400);",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] Blank Fields - Returns the errors as an array\", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res).to.be.an(\"array\");",
+                          "});",
+                          "",
+                          "const expectedMessages = [",
+                          "    \"Name may not be blank\",",
+                          "    \"Email may not be blank\",",
+                          "    \"Phone may not be blank\",",
+                          "    \"Subject may not be blank\",",
+                          "    \"Message may not be blank\"",
+                          "];",
+                          "",
+                          "expectedMessages.forEach((message) => {",
+                          "    pm.test(`[Contact Us] Empty Fields - Response includes \"${message}\"`, () => {",
+                          "        const res = pm.response.json();",
+                          "        pm.expect(res).to.include(message);",
+                          "    });",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"\",\n    \"email\": \"\",\n    \"phone\": \"\",\n    \"subject\": \"\",\n    \"description\": \"\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}{{contactUsEndPoint}}",
+                      "host": [
+                        "{{baseUrl}}{{contactUsEndPoint}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "description": "This folder contains negative test cases for the Contact Us form where **fields are present in the request body but their values are left empty/blank**.\n\n### Scope\n\nValidates that the API correctly rejects submissions when required fields exist in the payload but carry no value — ensuring proper server-side validation of empty inputs."
+            },
+            {
+              "name": "Invalid Field",
+              "item": [
+                {
+                  "name": "[Contact Us] Invalid name",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"[Contact Us] Invalid name - Returns 400 status code for an empty body\", () => {",
+                          "    pm.response.to.have.status(400);",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] Invalid name - Returns the errors as an array\", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res).to.be.an(\"array\");",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] Invalid name - Response includes \", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res).to.include(\"Name must be valid\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"123123\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{phone}}\",\n    \"subject\": \"{{subject}}\",\n    \"description\": \"{{description}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}{{contactUsEndPoint}}",
+                      "host": [
+                        "{{baseUrl}}{{contactUsEndPoint}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "[Contact Us] Invalid email",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"[Contact Us] Invalid email - Returns 400 status code for an empty body\", () => {",
+                          "    pm.response.to.have.status(400);",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] Invalid email - Returns the errors as an array\", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res).to.be.an(\"array\");",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] Invalid email - Response includes \", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res).to.include(\"must be a well-formed email address\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"name\": \"{{name}}\",\n    \"email\": \"invalid@invalid\",\n    \"phone\": \"{{phone}}\",\n    \"subject\": \"{{subject}}\",\n    \"description\": \"{{description}}\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}{{contactUsEndPoint}}",
+                      "host": [
+                        "{{baseUrl}}{{contactUsEndPoint}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "description": "This folder contains negative test cases for the Contact Us form where **fields are present in the request body but contain invalid values**.\n\n### Scope\n\nValidates that the API correctly rejects submissions when required fields are provided but hold values that fail format or content validation — ensuring robust server-side input validation beyond mere presence checks."
+            },
+            {
+              "name": "No Field",
+              "item": [
+                {
+                  "name": "[Contact Us] Empty object",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"[Contact Us] Empty object - Returns 400 status code for an empty body\", () => {",
+                          "    pm.response.to.have.status(400);",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] Empty object - Returns the errors as an array\", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res).to.be.an(\"array\");",
+                          "});",
+                          "",
+                          "const expectedMessages = [",
+                          "    \"Name must be set\",",
+                          "    \"Name may not be blank\",",
+                          "    \"Email must be set\",",
+                          "    \"Email may not be blank\",",
+                          "    \"Phone must be set\",",
+                          "    \"Phone may not be blank\",",
+                          "    \"Subject must be set\",",
+                          "    \"Subject may not be blank\",",
+                          "    \"Message must be set\",",
+                          "    \"Message may not be blank\"",
+                          "];",
+                          "",
+                          "expectedMessages.forEach((message) => {",
+                          "    pm.test(`[Contact Us] Empty object - Response includes \"${message}\"`, () => {",
+                          "        const res = pm.response.json();",
+                          "        pm.expect(res).to.include(message);",
+                          "    });",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}{{contactUsEndPoint}}",
+                      "host": [
+                        "{{baseUrl}}{{contactUsEndPoint}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "[Contact Us] No data",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"[Contact Us] No data - Returns 500 status code for no body\", () => {",
+                          "    pm.response.to.have.status(500);",
+                          "});",
+                          "",
+                          "pm.test(\"[Contact Us] No data - Returns the expected error message\", () => {",
+                          "    const res = pm.response.json();",
+                          "    pm.expect(res.error).to.include(\"Failed to create message\");",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}{{contactUsEndPoint}}",
+                      "host": [
+                        "{{baseUrl}}{{contactUsEndPoint}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "description": "This folder contains **negative test cases** for the **Contact Us** form, covering scenarios where the request body is submitted with **no field data whatsoever**.\n\n### Scope\n\nThese tests validate how the API handles requests that include either a completely empty object (`{}`) or no body/data at all — meaning no fields are present in the payload, not even as empty or null values."
+            }
+          ],
+          "description": "Groups all negative test cases for the Contact Us form, covering scenarios where the request is expected to fail.\n\n**Scope:** Invalid submissions organized into three sub-folders — Blank Field, Invalid Field, and No Field."
+        }
+      ],
+      "description": "Top-level folder for all test cases related to the Contact Us form endpoint.\n\n**Scope:** Covers both valid and invalid submission scenarios, organized into Positive and Negative sub-folders.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              "const stamp = Date.now();",
+              "",
+              "pm.variables.set(\"name\", `Toto ${stamp}`);",
+              "pm.variables.set(\"email\", \"toto@gmail.com\");",
+              "pm.variables.set(\"phone\", \"99887766554\");",
+              "pm.variables.set(\"subject\", `This is a subject ${stamp}`);",
+              "pm.variables.set(\"description\", \"This is an error message that I'm building\");"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
